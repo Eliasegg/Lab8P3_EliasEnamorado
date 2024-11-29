@@ -1,6 +1,6 @@
 #include <iostream>
+#include <vector>
 #include "Usuario.h"
-#include "Contenedor.h"
 
 using namespace std;
 
@@ -15,16 +15,27 @@ int getOpcion(int max) {
     return opcion;
 }
 
-bool validarCredenciales(string user, string contra, const Contenedor<Usuario>& contenedor) {
-    for (const auto& usuario : contenedor.obtenerElementos()) {
-        if (usuario.getUsername() == user && usuario.getPassword() == contra) {
+template <typename Container>
+bool validarCredenciales(string user, string contra, const Container& usuarios) {
+    for (const auto& usuario : usuarios) {
+        if (usuario->getUsername() == user && usuario->getPassword() == contra) {
             return true;
         }
     }
     return false;
 }
 
-void menuUsuario() {
+void mostrarTodosLosEquipos(const vector<Usuario*>& usuarios) {
+    cout << "---Equipos de la liga Fantasy---" << endl;
+    for (const auto& usuario : usuarios) {
+		cout << "---Alineacion del usuario " << usuario->getUsername() << "---" << endl;
+        cout << "Usuario: " << usuario->getUsername() << endl;
+        usuario->mostrarAlineacion();
+        cout << endl;
+    }
+}
+
+void menuUsuario(Usuario* usuario, const vector<Usuario*>& usuarios) {
     while (true) {
         cout << "1. Mostrar alineacion" << endl;
         cout << "2. Mostrar todos los equipos" << endl;
@@ -35,22 +46,23 @@ void menuUsuario() {
 
         switch (opcion) {
         case 1:
-            cout << "Mostrando alineacion..." << endl;
+            usuario->mostrarAlineacion();
+            cout << endl;
             break;
         case 2:
-            cout << "Mostrando todos los equipos..." << endl;
+            mostrarTodosLosEquipos(usuarios);
             break;
         case 3:
             cout << "Simulando jornada..." << endl;
             break;
         case 0:
             cout << "Saliendo..." << endl;
-            break;
+            return;
         }
     }
 }
 
-void iniciarSesion(const Contenedor<Usuario>& contenedor) {
+void iniciarSesion(vector<Usuario*> usuarios) {
     cout << "==== Sistema de Inicio de Sesion ====" << endl;
     while (true) {
         string usuario, contra;
@@ -59,27 +71,64 @@ void iniciarSesion(const Contenedor<Usuario>& contenedor) {
         cout << "Contrasena: ";
         cin >> contra;
 
-        if (validarCredenciales(usuario, contra, contenedor)) {
+        if (validarCredenciales(usuario, contra, usuarios)) {
             cout << "Inicio de sesion exitoso. Bienvenido, " + usuario + "!" << endl << endl;
-            break;
+            for (auto user : usuarios) {
+                if (user->getUsername() == usuario) {
+                    menuUsuario(user, usuarios);
+                    return;
+                }
+            }
         }
-
-        cout << "Contrasena incorrecta. Prueba otra vez." << endl;
+        else {
+            cout << "Contrasena incorrecta. Prueba otra vez." << endl;
+        }
     }
-    menuUsuario();
 }
 
-void menu(const Contenedor<Usuario>& contenedor) {
-    iniciarSesion(contenedor);
+void menu(vector<Usuario*> usuarios) {
+    iniciarSesion(usuarios);
 }
 
 int main() {
-    Contenedor<Usuario> contenedor;
-    contenedor.agregar(Usuario("Emilio", "emicantarero", "emi123", 0));
-    contenedor.agregar(Usuario("Belen", "belenPosso", "be123", 0));
-    contenedor.agregar(Usuario("Martin", "martinNelbren", "mn123", 0));
-    contenedor.agregar(Usuario("Akeem", "akeemleong", "ak123", 0));
+    vector<Usuario*> usuarios;
+    vector<Jugador*> jugadores1, jugadores2, jugadores3, jugadores4;
 
-    menu(contenedor);
+    Usuario* emilio = new Usuario("Emilio", "emicantarero", "emi123");
+    jugadores1.push_back(new Quarterback("Patrick Mahomes", "Kansas City Chiefs"));
+    jugadores1.push_back(new Receptor("Justin Jefferson", "Minnesota Vikings"));
+    jugadores1.push_back(new Corredor("Christian McCaffrey", "San Francisco 49ers"));
+    jugadores1.push_back(new AlaCerrada("Travis Kelce", "Kansas City Chiefs"));
+    jugadores1.push_back(new Pateador("Matt Pratter", "Arizona Cardinals"));
+    emilio->setAlineacion(jugadores1);
+    usuarios.push_back(emilio);
+
+    Usuario* belen = new Usuario("Belen", "belenPosso", "be123");
+    jugadores2.push_back(new Quarterback("Josh Allen", "Buffalo Bills"));
+    jugadores2.push_back(new Receptor("Amari Cooper", "Buffalo Bills"));
+    jugadores2.push_back(new Corredor("Derrick Henry", "Baltimore Ravens"));
+    jugadores2.push_back(new AlaCerrada("TJ Hockenson", "Detroit Lions"));
+    jugadores2.push_back(new Pateador("Joey Slye", "NE Patriots"));
+    belen->setAlineacion(jugadores2);
+    usuarios.push_back(belen);
+
+    Usuario* martin = new Usuario("Martin", "martinNelbren", "mn123");
+    jugadores3.push_back(new Quarterback("Mac Jones", "Jacksonville Jaguars"));
+    jugadores3.push_back(new Corredor("Saquon Barkley", "Philadelphia Eagles"));
+    jugadores3.push_back(new AlaCerrada("Dalton Schultz", "Houston Texans"));
+    jugadores3.push_back(new Pateador("Younghoe Koo", "Atlanta Falcons"));
+    martin->setAlineacion(jugadores3);
+    usuarios.push_back(martin);
+
+    Usuario* akeem = new Usuario("Akeem", "akeemleong", "ak123");
+    jugadores4.push_back(new Quarterback("Gardner Minshew", "Las Vegas Raiders"));
+    jugadores4.push_back(new Receptor("Jakobi Meyers", "Las Vegas Raiders"));
+    jugadores4.push_back(new Corredor("Aaron Jones", "Green Bay Packers"));
+    jugadores4.push_back(new AlaCerrada("Adam Trautman", "Denver Broncos"));
+    jugadores4.push_back(new Pateador("Matt Gay", "Indianapolis Colts"));
+    akeem->setAlineacion(jugadores4);
+    usuarios.push_back(akeem);
+
+    menu(usuarios);
     return 0;
 }

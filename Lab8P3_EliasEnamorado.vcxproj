@@ -127,12 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Contenedor.cpp" />
+    <ClCompile Include="Jugador.cpp" />
     <ClCompile Include="Lab8P3_EliasEnamorado.cpp" />
     <ClCompile Include="Usuario.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Contenedor.h" />
+    <ClInclude Include="Jugador.h" />
     <ClInclude Include="Usuario.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

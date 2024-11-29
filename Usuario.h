@@ -1,7 +1,6 @@
-#pragma once
-#include <iostream>
+#include <vector>
 #include <string>
-using namespace std;
+#include "Jugador.h"
 
 class Usuario {
 private:
@@ -9,13 +8,16 @@ private:
     string username;
     string password;
     int puntaje;
+    vector<Jugador*> alineacion;
 
 public:
-    Usuario() : nombre(""), username(""), password(""), puntaje(0) {}
-    Usuario(string nombre, string username, string password, int puntaje)
-        : nombre(nombre), username(username), password(password), puntaje(puntaje) {}
-    ~Usuario() {}
+    Usuario(const string& nombre, const string& username, const string& password, int puntaje = 0);
+    ~Usuario();
 
-    string getUsername() const { return username; }
-    string getPassword() const { return password; }
+    string getUsername() const;
+    string getPassword() const;
+
+    void setAlineacion(vector<Jugador*> vector);
+    vector<Jugador*> obtenerJugadores();
+    void mostrarAlineacion() const;
 };
