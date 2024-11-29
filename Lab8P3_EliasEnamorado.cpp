@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include "Usuario.h"
-
 using namespace std;
 
 int getOpcion(int max) {
@@ -26,7 +25,7 @@ bool validarCredenciales(string user, string contra, const Container& usuarios) 
 }
 
 void mostrarTodosLosEquipos(const vector<Usuario*>& usuarios) {
-    cout << "---Equipos de la liga Fantasy---" << endl;
+    cout << "---Equipos de la liga fantasy---" << endl;
     for (const auto& usuario : usuarios) {
 		cout << "---Alineacion del usuario " << usuario->getUsername() << "---" << endl;
         cout << "Usuario: " << usuario->getUsername() << endl;
@@ -41,7 +40,6 @@ void menuUsuario(Usuario* usuario, const vector<Usuario*>& usuarios) {
         cout << "2. Mostrar todos los equipos" << endl;
         cout << "3. Simular jornada" << endl;
         cout << "0. Salir" << endl;
-        cout << "Ingrese una opcion: ";
         int opcion = getOpcion(3);
 
         switch (opcion) {
@@ -53,7 +51,7 @@ void menuUsuario(Usuario* usuario, const vector<Usuario*>& usuarios) {
             mostrarTodosLosEquipos(usuarios);
             break;
         case 3:
-            cout << "Simulando jornada..." << endl;
+			usuario->simularPartidos(usuarios);
             break;
         case 0:
             cout << "Saliendo..." << endl;

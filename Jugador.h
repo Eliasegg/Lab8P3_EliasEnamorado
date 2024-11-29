@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 class Jugador {
@@ -12,9 +14,14 @@ public:
     Jugador(const std::string& nombre, const std::string& equipo, int puntaje = 0);
     virtual ~Jugador();
 
+    std::string getEquipo() const;
+
     virtual std::string toString() const = 0;
     virtual std::string retornarPosicion() const = 0;
     virtual void hacerJugadas() = 0;
+
+    int getPuntaje() const { return puntaje; }
+    void resetPuntaje() { puntaje = 0; }
 };
 
 // Receptor

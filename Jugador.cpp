@@ -6,6 +6,10 @@ Jugador::Jugador(const std::string& nombre, const std::string& equipo, int punta
 
 Jugador::~Jugador() {}
 
+std::string Jugador::getEquipo() const {
+    return equipo;
+}
+
 // Receptor
 Receptor::Receptor(const std::string& nombre, const std::string& equipo, int puntaje)
     : Jugador(nombre, equipo, puntaje) {}
@@ -19,7 +23,25 @@ std::string Receptor::retornarPosicion() const {
 }
 
 void Receptor::hacerJugadas() {
-    std::cout << nombre << " está haciendo jugadas como Receptor." << std::endl;
+    int jugada = rand() % 4;
+    switch (jugada) {
+    case 0:
+        puntaje += 2; // Pase corto
+        std::cout << this->nombre << " recibe un pase corto para un total de 6 yardas." << std::endl;
+        break;
+    case 1:
+        puntaje += 5; // Pase medio
+        std::cout << this->nombre << " recibe un pase medio para un total de 12 yardas." << std::endl;
+        break;
+    case 2:
+        puntaje += 10; // Pase largo
+        std::cout << this->nombre << " recibe un pase largo para un total de 20 yardas." << std::endl;
+        break;
+    case 3:
+        puntaje -= 5; // Fumble
+        std::cout << this->nombre << " hizo un fumble." << std::endl;
+        break;
+    }
 }
 
 // AlaCerrada
@@ -35,7 +57,25 @@ std::string AlaCerrada::retornarPosicion() const {
 }
 
 void AlaCerrada::hacerJugadas() {
-    std::cout << nombre << " está haciendo jugadas como Ala Cerrada." << std::endl;
+    int jugada = rand() % 4;
+    switch (jugada) {
+    case 0:
+        puntaje += 2; // Pase corto
+        std::cout << this->nombre << " lanza un pase corto para un total de 6 yardas." << std::endl;
+        break;
+    case 1:
+        puntaje += 5; // Pase medio
+        std::cout << this->nombre << " lanza un pase medio para un total de 12 yardas." << std::endl;
+        break;
+    case 2:
+        puntaje += 10; // Pase largo
+        std::cout << this->nombre << " lanza un pase largo para un total de 20 yardas." << std::endl;
+        break;
+    case 3:
+        puntaje -= 5; // Fumble
+        std::cout << this->nombre << " hizo un fumble." << std::endl;
+        break;
+    }
 }
 
 // Pateador
@@ -51,7 +91,21 @@ std::string Pateador::retornarPosicion() const {
 }
 
 void Pateador::hacerJugadas() {
-    std::cout << nombre << " está haciendo jugadas como Pateador." << std::endl;
+    int jugada = rand() % 3;
+    switch (jugada) {
+    case 0:
+        puntaje += 6; // Gol de campo
+        std::cout << this->nombre << " anota un gol de campo." << std::endl;
+        break;
+    case 1:
+        puntaje += 6; // Punto extra
+        std::cout << this->nombre << " anota un punto extra." << std::endl;
+        break;
+    case 2:
+        puntaje -= 3; // Gol de campo fallado
+        std::cout << this->nombre << " falla un gol de campo." << std::endl;
+        break;
+    }
 }
 
 // Corredor
@@ -67,10 +121,28 @@ std::string Corredor::retornarPosicion() const {
 }
 
 void Corredor::hacerJugadas() {
-    std::cout << nombre << " está haciendo jugadas como Corredor." << std::endl;
+    int jugada = rand() % 4;
+    switch (jugada) {
+    case 0:
+        puntaje += 3; // Acarreo de 0-25 yardas
+        std::cout << this->nombre << " corre para un total de 10 yardas." << std::endl;
+        break;
+    case 1:
+        puntaje += 6; // Acarreo de 26-70 yardas
+        std::cout << this->nombre << " corre para un total de 40 yardas." << std::endl;
+        break;
+    case 2:
+        puntaje += 9; // Acarreo de 71-100 yardas
+        std::cout << this->nombre << " corre para un total de 80 yardas." << std::endl;
+        break;
+    case 3:
+        puntaje -= 3; // Fumble
+        std::cout << this->nombre << " hizo un fumble." << std::endl;
+        break;
+    }
 }
 
-// QB
+// Quarterback
 Quarterback::Quarterback(const std::string& nombre, const std::string& equipo, int puntaje)
     : Jugador(nombre, equipo, puntaje) {}
 
@@ -83,5 +155,23 @@ std::string Quarterback::retornarPosicion() const {
 }
 
 void Quarterback::hacerJugadas() {
-    std::cout << nombre << " está haciendo jugadas como Quarterback." << std::endl;
+    int jugada = rand() % 4;
+    switch (jugada) {
+    case 0:
+        puntaje += 2; // Pase corto
+        std::cout << this->nombre << " lanza un pase corto para un total de 6 yardas." << std::endl;
+        break;
+    case 1:
+        puntaje += 5; // Pase medio
+        std::cout << this->nombre << " lanza un pase medio para un total de 12 yardas." << std::endl;
+        break;
+    case 2:
+        puntaje += 10; // Pase largo
+        std::cout << this->nombre << " lanza un pase largo para un total de 20 yardas." << std::endl;
+        break;
+    case 3:
+        puntaje -= 10; // Intercepción
+        std::cout << this->nombre << " le hacen una intervencion." << std::endl;
+        break;
+    }
 }
